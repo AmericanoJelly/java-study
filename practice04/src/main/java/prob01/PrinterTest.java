@@ -13,5 +13,3 @@ public class PrinterTest {
 		printer.println();
 	}
 }
-
-// git test
