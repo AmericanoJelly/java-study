@@ -17,4 +17,31 @@ public class TV {
 				", volume=" + volume + 
 				", power=" + (power ? "on" : "off"));
 	}
+
+	public int getChannel() {
+		return channel;
+	}
+
+	public void setChannel(int channel) {
+		this.channel = channel;
+	}
+
+	public int getVolume() {
+		return volume;
+	}
+
+	public void setVolume(int volume) {
+		this.volume = volume;
+	}
+
+	public boolean isPower() {
+		return power;
+	}
+
+	public void setPower(boolean power) {
+		this.power = power;
+	}
+
+	
+	
 }
