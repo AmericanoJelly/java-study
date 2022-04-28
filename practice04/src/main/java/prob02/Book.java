@@ -66,6 +66,7 @@ public class Book{
 	}
 	
 	public void rent() {
+		stateCode = 0;
 		System.out.println( title + "(가) 대여 됐습니다.");
 	
 	}
