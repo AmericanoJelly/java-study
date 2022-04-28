@@ -9,7 +9,7 @@ public class Printer {
 	
 	
 	public Printer() {
-		this(0, false, 0.0, null);
+	
 	}
 	
 	public Printer(int num,boolean b,double d,String name) {
