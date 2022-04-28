@@ -7,37 +7,46 @@ public class Main {
 		point1.setX(20);
 		point1.setY(10);
 		// point1.show();
-		drawPoint(point1);
+		draw(point1);
 
 		Point point2 = new Point(50, 100);
-		drawPoint(point2);
+		draw(point2);
 		point2.show(false);
 		
 		Point point3 = new ColorPoint(40, 50, "red");
-		drawPoint(point3);
+		draw(point3);
 		// point3.show(true);
 		
 		Triangle triangle = new Triangle();
-		drawTriangle(triangle);
+		draw(triangle);
 		
 		Rectangle rectangle = new Rectangle();
-		drawRectangle(rectangle);
+		draw(rectangle);
+		
+		Circle circle = new Circle();
+		draw(circle);
+		
+		GraphicText graraphicText = new GraphicText("Hello World");
+		draw(graraphicText);
 	}
 	
-	public static void drawPoint(Point point) {
-		point.show();
+	public static void draw(Drawable drawable) {
+		drawable.draw();
 	}
 	
-//	public static void drawPoint(ColorPoint point) {
-//		point.show();
-//	}
 	
-	public static void drawTriangle(Triangle triangle) {
-		triangle.draw();
-	}
-	
-	public static void drawRectangle(Rectangle rectangle) {
-		rectangle.draw();
-	}
+	/*
+	 * public static void drawPoint(Point point) { point.show(); }
+	 * 
+	 * public static void drawShape(Shape shape) { shape.draw(); }
+	 */
+	/*
+	 * public static void drawPoint(ColorPoint point) { point.show(); }
+	 */
+	/*
+	 * public static void drawTriangle(Triangle triangle) { triangle.draw(); }
+	 * 
+	 * public static void drawRectangle(Rectangle rectangle) { rectangle.draw(); }
+	 */
 	
 }
