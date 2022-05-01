@@ -14,8 +14,10 @@ public class Sparrow extends Bird {
 
 	}
 	
-	public void toString(String name) {
-		System.out.println( "참새의 이름은 + name +입니다." );
+	@Override 
+	public String toString() {
+		System.out.println( "참새의 이름은 " + name +" 입니다." );
+		return name;
 	}
 
 }
