@@ -9,7 +9,7 @@ public class MyStack {
 	}
 	
 	public void push(String item) {
-		this.buffer[0] = item;
+		
 	}
 	
 	public String pop() {
@@ -17,24 +17,6 @@ public class MyStack {
 	}
 	
 	public boolean isEmpty() {
-		return false;
+		
 	}
-
-	public int getTop() {
-		return top;
-	}
-
-	public void setTop(int top) {
-		this.top = top;
-	}
-
-	public String[] getBuffer() {
-		return buffer;
-	}
-
-	public void setBuffer(String[] buffer) {
-		this.buffer = buffer;
-	}
-	
-
 }
