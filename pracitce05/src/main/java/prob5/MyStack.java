@@ -17,6 +17,11 @@ public class MyStack {
 	}
 	
 	public boolean isEmpty() {
+		return false;
 		
+	}
+	
+	if() {
+		throw new MyStackException();
 	}
 }
