@@ -1,7 +1,7 @@
 package prob5;
 
 public class MyStack {
-	private int top = 0;//관리
+	private int top = 0;
 	private String[] buffer;
 	
 	public MyStack(int size) {
@@ -9,14 +9,16 @@ public class MyStack {
 	}
 	
 	public void push(String item) {
-		
+		this.buffer[0] = item;
 	}
 	
-	public void pop() {
-		
+	public String pop() {
+		return null;
 	}
 	
-	public boolean isEmpty(){
-		
+	public boolean isEmpty() {
+		return false;
 	}
+	
+
 }
