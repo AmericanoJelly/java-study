@@ -19,6 +19,22 @@ public class MyStack {
 	public boolean isEmpty() {
 		return false;
 	}
+
+	public int getTop() {
+		return top;
+	}
+
+	public void setTop(int top) {
+		this.top = top;
+	}
+
+	public String[] getBuffer() {
+		return buffer;
+	}
+
+	public void setBuffer(String[] buffer) {
+		this.buffer = buffer;
+	}
 	
 
 }
