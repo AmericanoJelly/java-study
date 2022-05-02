@@ -18,6 +18,7 @@ public class CalenderTest {
 		cal.add(Calendar.DATE , 10000);
 		printDate(cal);
 	}
+	
 	private static void printDate(Calendar cal) {
 		
 		final String[] DAYS = {"일", "월", "화", "수", "목", "금", "토"}; //a에 10이 대입된게 final이 마지막 변경불가능
