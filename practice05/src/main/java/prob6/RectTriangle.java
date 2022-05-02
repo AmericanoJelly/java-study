@@ -4,24 +4,24 @@ public class RectTriangle extends Shape {
 	private double width;
 	private double height;
 
-	public RectTriangle(int i, int j) {
+	public RectTriangle(double width, double height) {
+		this.width = width;
+		this.height = height;
 
 	}
 
 	@Override
-	public double Area() {
+	public double getArea() {
 		double result = width*height/2;
 		return result;
 		
 	}
 
 	@Override
-	public double Perimeter() {
+	public double getPerimeter() {
 		double result = width + height + Math.sqrt((width*width) + (height*height));
 		return result;
 		
 	}
-
-
 	
 }

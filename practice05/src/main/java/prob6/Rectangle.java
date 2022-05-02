@@ -4,21 +4,22 @@ public class Rectangle extends Shape implements Resizable{
 	private double width;
 	private double height;
 	
-	public Rectangle(int i, int j) {
-	
+	public Rectangle(double width, double height) {
+		this.width = width;
+		this.height = height;
 	}
 
 	@Override
-	public double Area() {
+	public double getArea() {
 		double result = width*height;
 		return result;
 		
 	}
 
 	@Override
-	public double Perimeter() {
+	public double getPerimeter() {
 		
-		double result = (width*height)*2;
+		double result = (width+height)*2;
 		return result;
 	}
 
