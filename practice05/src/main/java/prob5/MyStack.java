@@ -5,7 +5,7 @@ public class MyStack {
 	private String[] buffer;
 	
 	public MyStack(int size) {
-		buffer = new String[size];
+		buffer = new String[6];
 	}
 
 	public void push(String item) {
@@ -17,7 +17,6 @@ public class MyStack {
 			throw new MyStackException();
 			}
 		String item = buffer[top];
-		buffer[top] = null;
 		top--;
 		return item;
 	}
