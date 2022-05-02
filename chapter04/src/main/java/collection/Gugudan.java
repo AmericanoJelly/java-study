@@ -8,7 +8,7 @@ public class Gugudan {
 	
 	public Gugudan(int left, int right) {
 		this.left = left;
-		this.left = right;
+		this.right = right;
 	}
 
 	@Override
@@ -18,7 +18,7 @@ public class Gugudan {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(left, right);
+		return Objects.hash(left*right);
 	}
 
 	@Override
@@ -30,7 +30,6 @@ public class Gugudan {
 		if (getClass() != obj.getClass())
 			return false;
 		Gugudan other = (Gugudan) obj;
-		return left == other.left && right == other.right;
+		return left*right == other.left*other.right;
 	}
-
 }
