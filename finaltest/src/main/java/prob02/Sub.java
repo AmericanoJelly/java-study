@@ -6,8 +6,4 @@ public class Sub implements Arithmetic {
 		return a - b;
 	}
 
-	@Override
-	public void calculate() {
-		
-	}
 }
