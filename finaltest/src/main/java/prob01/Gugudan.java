@@ -52,7 +52,6 @@ public class Gugudan {
 		for(int i = 0; i < COUNT_ANSWER_NUMBER; i++) {
 			boardNumbers[i] = randomize(1, 9) * randomize(1, 9);
 		}
-		
 		return boardNumbers;
 	}
 }
