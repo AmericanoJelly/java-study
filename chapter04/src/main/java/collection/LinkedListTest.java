@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-//db에서 가져오거나 정렬할때 사용
 //삽입삭제가 빠르다
 public class LinkedListTest {
 
