@@ -119,8 +119,7 @@ public class RequestHandler extends Thread {
 		 *  /error/400.html 내용
 		 */
 		
-		url = "/400.html";
-		File file = new File("./webapp/error" + url);
+		File file = new File("./webapp/error" + "/400.html");
 		
 		// nio
 		byte[] body = Files.readAllBytes(file.toPath());
@@ -134,15 +133,14 @@ public class RequestHandler extends Thread {
 
 	}
 	
-	private void response404Response(OutputStream outputStream, String url, String protocol) throws UnsupportedEncodingException, IOException {
+	private void response404Response(OutputStream outputStream, String url, String protocol) throws IOException {
 		/*
 		 *  HTTP/1.1 404 File Not Found\n
 		 *  Content-Type: text/html; charset=utf-8\n"
 		 *  \n
 		 *  /error/404.html 내용
 		 */
-		url = "/404.html";
-		File file = new File("./webapp/error" + url);
+		File file = new File("./webapp/error" + "/404.html");
 		byte[] body = Files.readAllBytes(file.toPath());
 		String contentType = Files.probeContentType(file.toPath());
 		
