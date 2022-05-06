@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -82,7 +83,7 @@ public class RequestHandler extends Thread {
 		}			
 	}
 
-	private void responseStaticResource(
+	public void responseStaticResource(
 		OutputStream outputStream,
 		String url,
 		String protocol) throws IOException {
@@ -109,23 +110,47 @@ public class RequestHandler extends Thread {
 		outputStream.write(body);
 	}
 
-	private void response400Error(OutputStream outputStream, String url, String protocol) {
+	private void response400Error(OutputStream outputStream, String url, String protocol) throws UnsupportedEncodingException, IOException {
+		
 		/*
 		 *  HTTP/1.1 400 Bad Request\n
 		 *  Content-Type: text/html; charset=utf-8\n"
 		 *  \n
 		 *  /error/400.html 내용
 		 */
+		
+		url = "/400.html";
+		File file = new File("./webapp/error" + url);
+		
+		// nio
+		byte[] body = Files.readAllBytes(file.toPath());
+		String contentType = Files.probeContentType(file.toPath());
+		
+		// response
+		outputStream.write((protocol + "400 Bad Request\n").getBytes("UTF-8"));
+		outputStream.write(("Content-Type:" + contentType + "; charset=utf-8\n").getBytes("UTF-8"));
+		outputStream.write("\n".getBytes());
+		outputStream.write(body);
 
 	}
 	
-	private void response404Response(OutputStream outputStream, String url, String protocol) {
+	private void response404Response(OutputStream outputStream, String url, String protocol) throws UnsupportedEncodingException, IOException {
 		/*
 		 *  HTTP/1.1 404 File Not Found\n
 		 *  Content-Type: text/html; charset=utf-8\n"
 		 *  \n
 		 *  /error/404.html 내용
 		 */
+		url = "/404.html";
+		File file = new File("./webapp/error" + url);
+		byte[] body = Files.readAllBytes(file.toPath());
+		String contentType = Files.probeContentType(file.toPath());
+		
+		// response
+		outputStream.write((protocol + "404 File Not Found\n").getBytes("UTF-8"));
+		outputStream.write(("Content-Type:" + contentType + "; charset=utf-8\n").getBytes("UTF-8"));
+		outputStream.write("\n".getBytes());
+		outputStream.write(body);
 	}
 
 	public void consoleLog( String message ) {
