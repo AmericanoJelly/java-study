@@ -29,7 +29,7 @@ public class EchoClient {
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
 		
 			while(true) {
-				System.out.println(">>");
+				System.out.print(">>");
 				String line = scanner.nextLine();
 				
 				if("exit".equals(line)) {
