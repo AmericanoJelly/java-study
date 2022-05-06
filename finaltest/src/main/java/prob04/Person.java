@@ -6,6 +6,24 @@ public class Person {
 	private int age;
 	private String name;
 	
+	public static int getNumberOfPerson() {
+		return numberOfPerson;
+	}
+	public static void setNumberOfPerson(int numberOfPerson) {
+		Person.numberOfPerson = numberOfPerson;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	/* 코드 작성 */
 	public Person() {
 		numberOfPerson++;
