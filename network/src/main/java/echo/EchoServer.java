@@ -1,60 +1,51 @@
-package test;
+package echo;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-public class TCPServer {
-
+public class EchoServer {
+	private static final int PORT = 6666;
+	
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;
 		
 		try {
-			// 1. 서버소켓 생성
+			
 			serverSocket = new ServerSocket();
 			
-			// 2. 바인딩(binding)
-			// 	  Socket에 inetSocketAddress(IP Address + Port)를 바인딩한다.
-			//    IPAddress(0.0.0.0) : 특정 호스트 IP를 바인딩 하지 않는다. wildcard
-			// 	  backlog: 요청 queue(10)
-			serverSocket.bind(new InetSocketAddress("0.0.0.0", 5555 ), 10); 
 			
-			// 3. accept
-			// 	  클라이언트로 부터 요청을 기다린다.
+			serverSocket.bind(new InetSocketAddress("0.0.0.0", PORT ), 10); 
+			log("starts...[port: " + PORT +"]");
+			
 			Socket socket = serverSocket.accept(); //blocking
 			
-			//반대편 소켓
+		
 			InetSocketAddress inetSocketAddress = (InetSocketAddress)socket.getRemoteSocketAddress();
 			String remoteHostAddress = inetSocketAddress.getAddress().getHostAddress();
 			int remoteHostPort = inetSocketAddress.getPort();
 			
-			System.out.println("[server] connected by client [ "+ remoteHostAddress + ": "+remoteHostPort +" ]");
+			log("connected by client [ "+ remoteHostAddress + ": "+remoteHostPort +" ]");
 			
 			try {
-			// 4. IO Stream 받아오기
-			InputStream is = socket.getInputStream();
-			OutputStream os = socket.getOutputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
+			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
 			
-			
-			// 5. 데이터 읽기
 			while(true) {
-				byte[] buffer = new byte[256];
-				int readByteCount = is.read(buffer); //blocking
-				if(readByteCount == -1) {
-					// 클라이언트가 정상적으로 종료, close() 호출
-					System.out.println("[server] closed by client");
+				String data = br.readLine();
+				if(data == null) {
+					log("closed by client");
 					break;
 				}
 				
-				String data = new String(buffer, 0,readByteCount,"UTF-8");
-				System.out.println("[server] received: " + data);
-				
-				//6. 데이터 쓰기
-				os.write(data.getBytes("utf-8"));
+				log("received: " + data);
+				pw.println(data);
 			}
 			
 			}catch(SocketException ex) {
@@ -81,5 +72,9 @@ public class TCPServer {
 					e.printStackTrace();
 			}
 		}
+	}
+	
+	private static void log(String log) {
+		System.out.println("[EchoServer]"+log);
 	}
 }
