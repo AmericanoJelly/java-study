@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class ChatServer {
-	private static final int PORT = 9990;
+	private static final int PORT = 9999;
 	private static final String SERVER_IP = "127.0.0.1";
 	static List<Writer>listWriters = new ArrayList<Writer>();
 	
@@ -39,8 +39,9 @@ public class ChatServer {
 			}finally {
 				//자원정리
 				try {
-					if(serverSocket != null && !serverSocket.isClosed())
-					serverSocket.close();
+						if(serverSocket != null && !serverSocket.isClosed()) {
+						serverSocket.close();
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 			}

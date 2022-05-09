@@ -15,7 +15,7 @@ public class ChatServerThread extends Thread {
 
 	private String nickname;
 	private Socket socket;
-	List<Writer> listWriters;
+	private List<Writer> listWriters;
 
 	public ChatServerThread(Socket socket, List<Writer>listWriters) {
 		this.socket = socket;
@@ -50,20 +50,20 @@ public class ChatServerThread extends Thread {
 				doJoin(tokens[1],printWriter);
 				
 			} else if("message".equals(tokens[0])) {
-				doMessage(tokens[0]);
+				doMessage(tokens[1]);
 				
 			} else if("quit".equals(tokens[0])) {
-				doQuit();
+				doQuit(printWriter);
 				
 			} else {
-				ChatServer.log("에러: 알수 없는 요청(" + tokens[0] + ")");
+				ChatServer.log("error: 알수 없는 요청(" + tokens[0] + ")");
 			}
 		}
 		
 		}catch(SocketException ex) {
-			System.out.println("[server] suddenly closed by client");
+				System.out.println("[server] suddenly closed by client");
 		}catch(IOException ex) {
-			System.out.println("[server] error: " + ex);
+				System.out.println("[server] error: " + ex);
 		}finally {
 			try {
 				if(socket != null && !socket.isClosed()) {
@@ -75,25 +75,19 @@ public class ChatServerThread extends Thread {
 		}
 	}
 
-
-	private void doJoin(String nickName, Writer writer, PrintWriter printWriter) {
-		this.setNickname(nickName);
+	private void doJoin(String nickName, Writer writer) {
+		this.nickname=nickName;
 		
 		String data = nickName + "님이 참여하였습니다.";
 		broadcast(data);
 		
 		addWriter(writer);
 		//ack
+		PrintWriter printWriter = (PrintWriter)writer;
 		printWriter.println("join:ok");
 		printWriter.flush();
 	}
-	
-	private void addWriter(Writer writer) {
-		synchronized(listWriters) {
-			listWriters.add(writer);
-		}
-	}
-	
+		
 	//서버에 연결된 모든 클라이언트에 메시지 보내는 메소드
 	private void broadcast( String data ) { 
 		synchronized(listWriters) {
@@ -105,33 +99,28 @@ public class ChatServerThread extends Thread {
 		}
 	}
 
-	
-	private void doMessage(String message) {
-	      String data = "MESSAGE:" + message;
-	      broadcast(data);
+	private void doMessage(String data) {
+	      broadcast(nickname + ":"+ data);
 	   }
 
 	private void doQuit(Writer writer) {
 		removeWriter( writer );
+		
 		String data = nickname + "님이 퇴장 하였습니다.";
 		broadcast(data);	
 	}
 	
+
+	private void addWriter(Writer writer) {
+		synchronized(listWriters) {
+			listWriters.add(writer);
+		}
+	}
 	
 	private void removeWriter(Writer writer) {
 		synchronized(listWriters) {
-		listWriters.remove(writer);
+			listWriters.remove(writer);
 		}
 	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-	
-
 
 }
