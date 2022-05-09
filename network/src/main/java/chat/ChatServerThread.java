@@ -47,13 +47,13 @@ public class ChatServerThread extends Thread {
 			
 			String[] tokens = request.split(":");
 			if("join".equals(tokens[0])) {
-				doJoin(tokens[1],printWriter, printWriter);
+				doJoin(tokens[1],printWriter);
 				
 			} else if("message".equals(tokens[0])) {
 				doMessage(tokens[0]);
 				
 			} else if("quit".equals(tokens[0])) {
-				doQuit(printWriter);
+				doQuit();
 				
 			} else {
 				ChatServer.log("에러: 알수 없는 요청(" + tokens[0] + ")");
@@ -74,6 +74,7 @@ public class ChatServerThread extends Thread {
 			}
 		}
 	}
+
 
 	private void doJoin(String nickName, Writer writer, PrintWriter printWriter) {
 		this.setNickname(nickName);
@@ -105,9 +106,10 @@ public class ChatServerThread extends Thread {
 	}
 
 	
-	private void doMessage(String string) {
-		//어로어나로어ㅏㄴ로ㅓㅇ눌어ㅏㄹㄴ오ㅓㅏㄹㅇㄴ
-	}
+	private void doMessage(String message) {
+	      String data = "MESSAGE:" + message;
+	      broadcast(data);
+	   }
 
 	private void doQuit(Writer writer) {
 		removeWriter( writer );
@@ -117,8 +119,9 @@ public class ChatServerThread extends Thread {
 	
 	
 	private void removeWriter(Writer writer) {
-		// ㅇ눛ㅇ내더리안룽ㄴㅊㅇ
-		
+		synchronized(listWriters) {
+		listWriters.remove(writer);
+		}
 	}
 
 	public String getNickname() {
