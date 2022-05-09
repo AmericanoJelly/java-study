@@ -121,11 +121,9 @@ public class RequestHandler extends Thread {
 		
 		File file = new File("./webapp/error" + "/400.html");
 		
-		// nio
 		byte[] body = Files.readAllBytes(file.toPath());
 		String contentType = Files.probeContentType(file.toPath());
 		
-		// response
 		outputStream.write((protocol + "400 Bad Request\n").getBytes("UTF-8"));
 		outputStream.write(("Content-Type:" + contentType + "; charset=utf-8\n").getBytes("UTF-8"));
 		outputStream.write("\n".getBytes());
@@ -140,11 +138,12 @@ public class RequestHandler extends Thread {
 		 *  \n
 		 *  /error/404.html 내용
 		 */
+		
 		File file = new File("./webapp/error" + "/404.html");
+		
 		byte[] body = Files.readAllBytes(file.toPath());
 		String contentType = Files.probeContentType(file.toPath());
 		
-		// response
 		outputStream.write((protocol + "404 File Not Found\n").getBytes("UTF-8"));
 		outputStream.write(("Content-Type:" + contentType + "; charset=utf-8\n").getBytes("UTF-8"));
 		outputStream.write("\n".getBytes());
