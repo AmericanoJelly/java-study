@@ -20,15 +20,15 @@ public class ChatServer {
 		ServerSocket serverSocket = null;
 		
 		try {
-			//서버 소켓 생성
+			// 1. 서버 소켓 생성
 			serverSocket = new ServerSocket();
 			
-			//바인딩
+			// 2. 바인딩
 			String hostAddress = InetAddress.getLocalHost().getHostAddress();
 			serverSocket.bind(new InetSocketAddress(SERVER_IP, PORT )); 
 			log("연결기다림 " + hostAddress + ": " + PORT );
 			
-			//요청대기
+			// 3. 요청대기
 			while(true) {
 				Socket socket = serverSocket.accept();
 				new ChatServerThread(socket, listWriters).start();
@@ -37,13 +37,13 @@ public class ChatServer {
 			}catch (IOException e) {
 				System.out.println("[server] error: " + e);
 			}finally {
-				//자원정리
+			// 4. 자원정리
 				try {
 						if(serverSocket != null && !serverSocket.isClosed()) {
-						serverSocket.close();
+							serverSocket.close();
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
+					System.out.println("[server] error:" + e);
 			}
 		}
 	}
