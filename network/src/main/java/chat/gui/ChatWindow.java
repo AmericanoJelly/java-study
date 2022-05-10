@@ -91,19 +91,6 @@ public class ChatWindow {
 		frame.setVisible(true);
 		frame.pack();
 		
-		
-		try {
-			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
-			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
-			
-		} catch (UnsupportedEncodingException e1) {	
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		
-		
 	}
 	
 	private void sendMessage() {
@@ -118,7 +105,7 @@ public class ChatWindow {
 	}
 	
 	private void updateTextArea(String message) {
-		textArea.append(name+":"+message);
+		textArea.append(name + ":" + message);
 		textArea.append("\n");
 	}
 
