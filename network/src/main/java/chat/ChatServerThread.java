@@ -54,7 +54,7 @@ public class ChatServerThread extends Thread {
 				
 			} else if("quit".equals(tokens[0])) {
 				doQuit(printWriter);
-				
+				System.exit(0);
 			} else {
 				ChatServer.log("error: 알수 없는 요청(" + tokens[0] + ")");
 			}
@@ -94,7 +94,7 @@ public class ChatServerThread extends Thread {
 			for(Writer writer : listWriters) {
 				PrintWriter printWriter = (PrintWriter)writer;
 				printWriter.println(data);
-				printWriter.flush();
+				//printWriter.flush();
 			}
 		}
 	}
