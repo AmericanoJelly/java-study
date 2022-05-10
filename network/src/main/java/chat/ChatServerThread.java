@@ -85,7 +85,6 @@ public class ChatServerThread extends Thread {
 		//ack
 		PrintWriter printWriter = (PrintWriter)writer;
 		printWriter.println("join:ok");
-		printWriter.flush();
 	}
 		
 	//서버에 연결된 모든 클라이언트에 메시지 보내는 메소드
