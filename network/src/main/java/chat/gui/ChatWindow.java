@@ -108,16 +108,16 @@ public class ChatWindow {
 	private void sendMessage() {
 				
 		String message = textField.getText();
-		System.out.println("메세지 보내는 프로토콜 구현: " + message);
+		System.out.println("message: " + message);
 		textField.setText("");
 		textField.requestFocus();
 	
 		//chat client thread에서 서버로 부터 받은 메세지가 있다고 치고~~(가짜데이터)
-		updateTextArea( name+": " + message);
+		
 	}
 	
 	private void updateTextArea(String message) {
-		textArea.append(message);
+		textArea.append(name+":"+message);
 		textArea.append("\n");
 	}
 
@@ -129,15 +129,6 @@ public class ChatWindow {
 
 	
 	private class chatClientThread extends Thread{
-		
-		public chatClientThread(Socket socket) {
-			// TODO Auto-generated constructor stub
-		}
-
-		public void show() {
-			// TODO Auto-generated method stub
-			
-		}
 
 		@Override
 		public void run() {
@@ -146,8 +137,8 @@ public class ChatWindow {
 					 	BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 		                while(true) {
 		                    String data = br.readLine();
-		                    textArea.append(data);
-		                    textArea.append("\n");
+		                    updateTextArea(data);
+		                    
 		                }
 		            }
 		            catch (IOException e) {
