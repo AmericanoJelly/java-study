@@ -12,21 +12,35 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.Socket;
+
 
 public class ChatWindow {
 
+	private String name;
 	private Frame frame;
 	private Panel pannel;
 	private Button buttonSend;
 	private TextField textField;
 	private TextArea textArea;
+	
+	private Socket socket;
 
-	public ChatWindow(String name) {
+	public ChatWindow(String name, Socket socket) {
 		frame = new Frame(name);
 		pannel = new Panel();
 		buttonSend = new Button("Send");
 		textField = new TextField();
 		textArea = new TextArea(30, 80);
+		
+		this.socket = socket;
+		new chatClientThread(socket).start();
 	}
 
 	public void show() {
@@ -70,29 +84,36 @@ public class ChatWindow {
 		// Frame
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				finish();
+	               finish();
 			}
 		});
 		frame.setVisible(true);
 		frame.pack();
 		
-		/**
-		 * 2. IOStream(Pipeline established)
-		 * **/
 		
-		/**
-		 * 3. Chat Client Thread 생성하고 실행
-		 * **/
+		try {
+			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
+			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
+			
+		} catch (UnsupportedEncodingException e1) {	
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		new chatClientThread(socket).start();
+		
 	}
 	
 	private void sendMessage() {
+				
 		String message = textField.getText();
 		System.out.println("메세지 보내는 프로토콜 구현: " + message);
 		textField.setText("");
 		textField.requestFocus();
-		
+	
 		//chat client thread에서 서버로 부터 받은 메세지가 있다고 치고~~(가짜데이터)
-		updateTextArea("마이콜: " + message);
+		updateTextArea( name+": " + message);
 	}
 	
 	private void updateTextArea(String message) {
@@ -101,15 +122,40 @@ public class ChatWindow {
 	}
 
 	private void finish() {
-		System.out.println("소켓 닫기 or 빙나가기(QUIT) 프로토콜 구현");
-		System.exit(0);
+		
+			System.out.println("소켓 닫기 or 빙나가기(QUIT) 프로토콜 구현");
+			System.exit(0);
 	}
 
 	
-	private class ChatClientThread extends Thread{
-		@Override
-		public void run() {
+	private class chatClientThread extends Thread{
+		
+		public chatClientThread(Socket socket) {
+			// TODO Auto-generated constructor stub
+		}
+
+		public void show() {
+			// TODO Auto-generated method stub
 			
 		}
+
+		@Override
+		public void run() {
+			while(true) {
+				 try {
+					 	BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
+		                while(true) {
+		                    String data = br.readLine();
+		                    textArea.append(data);
+		                    textArea.append("\n");
+		                }
+		            }
+		            catch (IOException e) {
+		                e.printStackTrace();
+		            }
+		        }
+		
+			}
+		}
 	}
-}
+
