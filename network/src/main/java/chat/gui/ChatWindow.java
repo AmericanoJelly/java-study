@@ -31,6 +31,8 @@ public class ChatWindow {
 	private TextArea textArea;
 	
 	private Socket socket;
+	private BufferedReader br = null;
+	private PrintWriter pw = null;
 	
 
 	public ChatWindow(String name, Socket socket) {
@@ -41,7 +43,6 @@ public class ChatWindow {
 		textArea = new TextArea(30, 80);
 		
 		this.socket = socket;
-		new chatClientThread().start();
 	}
 
 	public void show() {
@@ -91,16 +92,34 @@ public class ChatWindow {
 		frame.setVisible(true);
 		frame.pack();
 		
+		
+		/**
+		 * 2. IOStream (Pipeline established)
+		 */
+		try {
+			br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
+			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		/**
+		 * 3. Chat Client Thread 생성하고 실행
+		 */
+		new chatClientThread().start();
+		
 	}
 	
 	private void sendMessage() {
 				
 		String message = textField.getText();
-		System.out.println("message: " + message);
+		pw.println("메세지 보내는 프로토콜 구현:" + message);
 		textField.setText("");
 		textField.requestFocus();
-	
-		//chat client thread에서 서버로 부터 받은 메세지가 있다고 치고~~(가짜데이터)
 		
 	}
 	
@@ -110,9 +129,8 @@ public class ChatWindow {
 	}
 
 	private void finish() {
-		
-			System.out.println("소켓 닫기 or 빙나가기(QUIT) 프로토콜 구현");
-			System.exit(0);
+		System.out.println("소켓 닫기 or 빙나가기(QUIT) 프로토콜 구현");
+		System.exit(0);
 	}
 
 	
@@ -120,20 +138,15 @@ public class ChatWindow {
 
 		@Override
 		public void run() {
-			while(true) {
-				 try {
-					 	BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
-		                while(true) {
-		                    String data = br.readLine();
-		                    updateTextArea(data);   
-		                }
-		            }
-		            catch (IOException e) {
-		                e.printStackTrace();
-		            }
-		        }
-		
+			try {
+				while(true) {
+				String data = br.readLine();
+				updateTextArea(data);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+	         
 		}
 	}
-
+}
