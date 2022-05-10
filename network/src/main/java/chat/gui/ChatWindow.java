@@ -31,6 +31,7 @@ public class ChatWindow {
 	private TextArea textArea;
 	
 	private Socket socket;
+	
 
 	public ChatWindow(String name, Socket socket) {
 		frame = new Frame(name);
@@ -40,7 +41,7 @@ public class ChatWindow {
 		textArea = new TextArea(30, 80);
 		
 		this.socket = socket;
-		new chatClientThread(socket).start();
+		new chatClientThread().start();
 	}
 
 	public void show() {
@@ -101,7 +102,7 @@ public class ChatWindow {
 			e1.printStackTrace();
 		}
 		
-		new chatClientThread(socket).start();
+		
 		
 	}
 	
@@ -137,8 +138,7 @@ public class ChatWindow {
 					 	BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 		                while(true) {
 		                    String data = br.readLine();
-		                    updateTextArea(data);
-		                    
+		                    updateTextArea(data);   
 		                }
 		            }
 		            catch (IOException e) {
