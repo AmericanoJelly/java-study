@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
 
 public class ChatServerThread extends Thread {
@@ -58,8 +59,18 @@ public class ChatServerThread extends Thread {
 
 				} 
 			}
-			}catch(IOException ex) {
-					System.out.println(this.nickname + "님이 채팅방을 나갔습니다.");
+			} catch(SocketException ex) {
+				System.out.println("[server]"+ this.nickname +" suddenly closed by client");
+			} catch (IOException ex) {
+				System.out.println("[server] error:" + ex);
+			} finally {
+				try {
+					if (socket != null && !socket.isClosed()) {
+						socket.close();
+					}
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
 			}
 	}
 
@@ -70,9 +81,11 @@ public class ChatServerThread extends Thread {
 		broadcast(data);
 		
 		addWriter(writer);
+		
 		//ack
 		PrintWriter printWriter = (PrintWriter)writer;
 		printWriter.println("join:ok");
+		
 	}
 		
 	//서버에 연결된 모든 클라이언트에 메시지 보내는 메소드
@@ -81,7 +94,7 @@ public class ChatServerThread extends Thread {
 			for(Writer writer : listWriters) {
 				PrintWriter printWriter = (PrintWriter)writer;
 				printWriter.println(data);
-				//printWriter.flush();
+
 			}
 		}
 	}
@@ -92,7 +105,6 @@ public class ChatServerThread extends Thread {
 
 	private void doQuit(Writer writer) {
 		removeWriter(writer);
-		
 		String data = this.nickname + "님이 퇴장 하였습니다.";
 		broadcast(data);	
 	}

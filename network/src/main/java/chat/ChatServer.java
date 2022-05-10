@@ -35,7 +35,7 @@ public class ChatServer {
 			}
 			
 			}catch (IOException e) {
-				System.out.println("[server] error: " + e);
+				log("error: " + e);
 			}finally {
 			// 4. 자원정리
 				try {
@@ -43,7 +43,7 @@ public class ChatServer {
 							serverSocket.close();
 					}
 				} catch (IOException e) {
-					System.out.println("[server] error:" + e);
+					log("error:" + e);
 			}
 		}
 	}
