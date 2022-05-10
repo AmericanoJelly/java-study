@@ -1,5 +1,14 @@
 package chat;
 
-public class chatClientThread extends Thread {
+import java.io.BufferedReader;
 
+public class chatClientThread extends Thread {
+	private BufferedReader bufferReader;
+	
+	@Override
+	public void run() {
+		
+	}
+	
+	
 }

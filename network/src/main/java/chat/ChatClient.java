@@ -10,7 +10,9 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ChatClient {
-
+	private static final int PORT = 9999;
+	private static final String SERVER_IP = "127.0.0.1";
+	
 	public static void main(String[] args) {
 		Socket socket = null;
 		Scanner scanner = null;
@@ -19,26 +21,36 @@ public class ChatClient {
 			scanner = new Scanner(System.in);
 			socket = new Socket();
 			
+			socket.connect(new InetSocketAddress(SERVER_IP, PORT));
 			
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
 		
 			while(true) {
 				System.out.print(">>");
-				String line = scanner.nextLine();
+				String input = scanner.nextLine();
 				
 				if("quit".equals(input) == true) {
 					break;
 				}else {
-					//메시지처리
+					pw.println(input);
+					String data = br.readLine();
 				}
-				
+				System.out.println("<< " + input);
+			}	
 		} catch (IOException e) {
 			System.out.println("[client] error: "+e);
-		}finally {
-			//자원정리
-		}
-				public static void log(String log) {
-					System.out.println("[Echo Client]" + log);
+			}finally {	
+				try {
+					if(scanner != null) {
+						scanner.close();
+					}
+					if(socket != null && !socket.isClosed()) {
+					socket.close();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
+			}
+		}			
 }
