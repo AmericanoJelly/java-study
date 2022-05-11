@@ -39,22 +39,22 @@ public class ChatClient {
 			
 			if("join:ok".equals(data)) {
 				System.out.println(nickname+"님이 입장하였습니다. 즐거운 채팅 되세요");
+				System.out.print(">>");
 			}
-				
+			
 			
 			// 6. ChatClientReceiveThread 시작
 			new chatClientThread(socket).start();
 			
 			// 7. 키보드 입력 처리
 			while(true) {
-				System.out.print(">>");
 				String input = scanner.nextLine();
 				
 				if("quit".equals(input) == true) {
 					// 8. quit 프로토콜 처리
 					pw.println("quit");
 					break;
-				}else {
+				} else {
 					// 9. 메시지 처리
 					pw.println("message:" + input);
 				}
@@ -65,11 +65,17 @@ public class ChatClient {
 			
 			}finally {	
 					// 10. 자원정리
+				try {
 					if(scanner != null) {
 						scanner.close();
 					}
-					
-				}
+					if(socket != null && !socket.isClosed()) {
+						socket.close();
+					}
+				}catch (IOException e) {
+					ChatServer.log("error:" + e);
+			}
+			}
 		}
 }			
 

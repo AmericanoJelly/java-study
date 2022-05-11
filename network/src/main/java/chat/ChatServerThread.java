@@ -36,18 +36,17 @@ public class ChatServerThread extends Thread {
 		BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 		PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
 		
-			//3. 요청 처리 
+		//3. 요청 처리 
 			while(true) {
-				String line = br.readLine();
+				String request = br.readLine();
 				
-				if(line == null) {
+				if(request == null) {
 					ChatServer.log("클라이언트로 부터 연결 끊김");
-					doQuit(pw);
 					break;
 				}
 				
-				// 4. 프로토콜 분석
-				String[] tokens = line.split(":");
+		// 4. 프로토콜 분석
+				String[] tokens = request.split(":");
 				if("join".equals(tokens[0])) {
 					doJoin(tokens[1],pw);
 					
@@ -56,15 +55,16 @@ public class ChatServerThread extends Thread {
 					
 				} else if("quit".equals(tokens[0])) {
 					doQuit(pw);
-					System.exit(0);
 				} else {
 					ChatServer.log("에러:알 수 없는 요청("+tokens[0]+")");;
 				}
 			}
-			} catch(SocketException ex) {
+			}  catch(SocketException ex) {
 				System.out.println("[server]"+ this.nickname +" suddenly closed by client");
 			} catch (IOException ex) {
 				System.out.println("[server] error:" + ex);
+			} catch(ArrayIndexOutOfBoundsException ex) {
+				System.out.println("공백에러ㅓ러러러러러");
 			} finally {
 				try {
 					if (socket != null && !socket.isClosed()) {

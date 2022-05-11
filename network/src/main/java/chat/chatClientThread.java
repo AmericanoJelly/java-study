@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 
 
 public class chatClientThread extends Thread {
@@ -23,8 +24,10 @@ public class chatClientThread extends Thread {
 			while(true) {
 				System.out.println(br.readLine());
 			}
+		} catch(SocketException ex) {
+			System.out.println("종료");
 		} catch(IOException e) {
-			System.out.println("");
-		}
+			System.out.println("error: " + e);
+		} 		
 	}
 }
