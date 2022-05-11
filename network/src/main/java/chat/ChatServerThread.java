@@ -38,16 +38,16 @@ public class ChatServerThread extends Thread {
 		
 			//3. 요청 처리 
 			while(true) {
-				String request = br.readLine();
+				String line = br.readLine();
 				
-				if(request == null) {
+				if(line == null) {
 					ChatServer.log("클라이언트로 부터 연결 끊김");
 					doQuit(pw);
 					break;
 				}
 				
 				// 4. 프로토콜 분석
-				String[] tokens = request.split(":");
+				String[] tokens = line.split(":");
 				if("join".equals(tokens[0])) {
 					doJoin(tokens[1],pw);
 					
@@ -56,8 +56,10 @@ public class ChatServerThread extends Thread {
 					
 				} else if("quit".equals(tokens[0])) {
 					doQuit(pw);
-					break;
-				} 
+					System.exit(0);
+				} else {
+					ChatServer.log("에러:알 수 없는 요청("+tokens[0]+")");;
+				}
 			}
 			} catch(SocketException ex) {
 				System.out.println("[server]"+ this.nickname +" suddenly closed by client");
@@ -78,6 +80,7 @@ public class ChatServerThread extends Thread {
 		this.nickname=nickName;
 		
 		String data = nickName + "님이 참여하였습니다.";
+		System.out.println(data);
 		broadcast(data);
 		
 		addWriter(writer);
@@ -92,9 +95,8 @@ public class ChatServerThread extends Thread {
 	private void broadcast( String data ) { 
 		synchronized(listWriters) {
 			for(Writer writer : listWriters) {
-				PrintWriter printWriter = (PrintWriter)writer;
-				printWriter.println(data);
-
+				PrintWriter pw = (PrintWriter)writer;
+				pw.println(data);
 			}
 		}
 	}
@@ -106,7 +108,7 @@ public class ChatServerThread extends Thread {
 	private void doQuit(Writer writer) {
 		removeWriter(writer);
 		String data = this.nickname + "님이 퇴장 하였습니다.";
-		System.out.println(this.nickname + "님이 퇴장 하였습니다.");
+		System.out.println(data);
 		broadcast(data);	
 	}
 	
