@@ -56,7 +56,7 @@ public class ChatServerThread extends Thread {
 					
 				} else if("quit".equals(tokens[0])) {
 					doQuit(pw);
-
+					break;
 				} 
 			}
 			} catch(SocketException ex) {
@@ -83,8 +83,8 @@ public class ChatServerThread extends Thread {
 		addWriter(writer);
 		
 		//ack
-		PrintWriter printWriter = (PrintWriter)writer;
-		printWriter.println("join:ok");
+		PrintWriter pw= (PrintWriter)writer;
+		pw.println("join:ok");
 		
 	}
 		
@@ -106,6 +106,7 @@ public class ChatServerThread extends Thread {
 	private void doQuit(Writer writer) {
 		removeWriter(writer);
 		String data = this.nickname + "님이 퇴장 하였습니다.";
+		System.out.println(this.nickname + "님이 퇴장 하였습니다.");
 		broadcast(data);	
 	}
 	
