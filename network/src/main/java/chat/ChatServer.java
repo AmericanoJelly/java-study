@@ -17,6 +17,7 @@ public class ChatServer {
 	static List<Writer>listWriters = new ArrayList<Writer>();
 	
 	public static void main(String[] args) {
+		
 		ServerSocket serverSocket = null;
 		
 		try {
