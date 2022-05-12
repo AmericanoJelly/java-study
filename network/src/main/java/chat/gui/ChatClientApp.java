@@ -17,11 +17,10 @@ public class ChatClientApp {
 		String name = null;
 		Scanner scanner = new Scanner(System.in);
 		
-		
+		try {
 		while( true ) {
 			
-			System.out.println("대화명을 입력하세요.");
-			System.out.print(">>> ");
+			System.out.print("대화명을 입력하세요 >>");
 			name = scanner.nextLine();
 			
 			if (name.isEmpty() == false ) {
@@ -36,26 +35,24 @@ public class ChatClientApp {
 		//1. create socket
 		Socket socket = new Socket();
 		
-		try {
 		//2. connect server
             socket.connect( new InetSocketAddress(SERVER_IP, PORT) );
             System.out.println("채팅방에 입장하였습니다.");
          
-         //3. get iostream(pipline established)
+        //3. get iostream(pipline established)
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
             
-          //4. join protocol 처리
+        //4. join protocol 처리
             pw.println("join: " + name);
             String data = br.readLine();
             pw.println(data);
             
     		new ChatWindow(name, socket).show();
     		
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
+        } 
     }			
 }
 

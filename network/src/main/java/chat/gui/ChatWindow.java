@@ -115,6 +115,11 @@ public class ChatWindow {
 	private void sendMessage() {
 				
 		String message = textField.getText();
+		
+		if ("quit".equals(message)) {
+			finish();
+		}
+		
 		pw.println("메세지 보내는 프로토콜 구현:" + message);
 		textField.setText("");
 		textField.requestFocus();
@@ -127,7 +132,7 @@ public class ChatWindow {
 	}
 
 	private void finish() {
-		System.out.println("소켓 닫기 or 빙나가기(QUIT) 프로토콜 구현");
+		System.out.println("소켓 닫기");
 		System.exit(0);
 	}
 
