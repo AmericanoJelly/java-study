@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 
 
@@ -29,7 +28,6 @@ public class ChatWindow {
 	private Button buttonSend;
 	private TextField textField;
 	private TextArea textArea;
-	
 	private Socket socket;
 	private BufferedReader br = null;
 	private PrintWriter pw = null;
@@ -41,7 +39,6 @@ public class ChatWindow {
 		buttonSend = new Button("Send");
 		textField = new TextField();
 		textArea = new TextArea(30, 80);
-		
 		this.socket = socket;
 	}
 
@@ -97,10 +94,7 @@ public class ChatWindow {
 		 * 2. IOStream (Pipeline established)
 		 */
 		try {
-			br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -108,7 +102,7 @@ public class ChatWindow {
 		/**
 		 * 3. Chat Client Thread 생성하고 실행
 		 */
-		new chatClientThread().start();
+		new chatClientThread(socket).start();
 		
 	}
 	
@@ -120,28 +114,36 @@ public class ChatWindow {
 			finish();
 		}
 		
-		pw.println("메세지 보내는 프로토콜 구현:" + message);
+		pw.println("message:" + message);
 		textField.setText("");
 		textField.requestFocus();
 		
 	}
 	
 	private void updateTextArea(String message) {
-		textArea.append(name + ":" + message);
+		textArea.append(message);
 		textArea.append("\n");
 	}
 
 	private void finish() {
 		System.out.println("소켓 닫기");
+		textField.setText(name+"종료");
 		System.exit(0);
 	}
 
 	
 	private class chatClientThread extends Thread{
+		
+		private Socket socket;
+		
+		public chatClientThread(Socket socket) {
+			this.socket = socket;
+		}
 
 		@Override
 		public void run() {
 			try {
+				br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 				while(true) {
 				String data = br.readLine();
 				updateTextArea(data);

@@ -16,43 +16,33 @@ public class ChatClientApp {
 	public static void main(String[] args) {
 		String name = null;
 		Scanner scanner = new Scanner(System.in);
-		
-		try {
-		while( true ) {
-			
-			System.out.print("대화명을 입력하세요 >>");
-			name = scanner.nextLine();
-			
-			if (name.isEmpty() == false ) {
-				break;
-			}
-			
-			System.out.println("대화명은 한 글자 이상 입력해야 합니다.\n");
-		}
-		
-		scanner.close();
-
+	
 		//1. create socket
 		Socket socket = new Socket();
 		
+		try {
 		//2. connect server
             socket.connect( new InetSocketAddress(SERVER_IP, PORT) );
             System.out.println("채팅방에 입장하였습니다.");
          
         //3. get iostream(pipline established)
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
-            PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
-            
+			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(),"UTF-8"), true);
+			
         //4. join protocol 처리
-            pw.println("join: " + name);
-            String data = br.readLine();
-            pw.println(data);
-            
-    		new ChatWindow(name, socket).show();
-    		
+				System.out.print("대화명을 입력하세요 >>");
+				name = scanner.nextLine();
+				
+				if (name.isEmpty() == false ) {
+					 pw.println("join: " + name);
+			          String data = br.readLine();
+			         
+			    if("join:ok".equals(data)) {
+					System.out.println(name+"님이 입장하였습니다. 즐거운 채팅 되세요");
+				} 	
+			}	new ChatWindow(name, socket).show();	
         } catch (IOException e) {
             e.printStackTrace();
         } 
     }			
 }
-

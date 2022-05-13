@@ -56,7 +56,7 @@ public class ChatServerThread extends Thread {
 				} else if("quit".equals(tokens[0])) {
 					doQuit(pw);
 				} else {
-					ChatServer.log("에러:알 수 없는 요청("+tokens[0]+")");;
+					ChatServer.log("에러:알 수 없는 요청("+tokens[0]+")");
 				}
 			}
 			}  catch(SocketException ex) {
@@ -78,9 +78,8 @@ public class ChatServerThread extends Thread {
 
 	private void doJoin(String nickName, Writer writer) {
 		this.nickname=nickName;
-		
 		String data = nickName + "님이 참여하였습니다.";
-		//System.out.println(data);
+		System.out.println(data);
 		broadcast(data);
 		
 		addWriter(writer);
