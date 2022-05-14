@@ -102,7 +102,6 @@ public class ChatWindow {
 		 * 3. Chat Client Thread 생성하고 실행
 		 */
 		new chatClientThread(socket).start();
-		
 	}
 	
 	private void sendMessage() {
