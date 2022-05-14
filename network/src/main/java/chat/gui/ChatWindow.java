@@ -32,7 +32,6 @@ public class ChatWindow {
 	private BufferedReader br = null;
 	private PrintWriter pw = null;
 	
-
 	public ChatWindow(String name, Socket socket) {
 		frame = new Frame(name);
 		pannel = new Panel();
