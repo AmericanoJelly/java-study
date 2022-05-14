@@ -66,7 +66,6 @@ public class ChatWindow {
 					sendMessage();
 				}
 			}
-			
 		});
 
 		// Pannel
@@ -105,7 +104,6 @@ public class ChatWindow {
 	}
 	
 	private void sendMessage() {
-				
 		String message = textField.getText();
 		
 		if ("quit".equals(message)) {
@@ -115,7 +113,6 @@ public class ChatWindow {
 		pw.println("message:" + message);
 		textField.setText("");
 		textField.requestFocus();
-		
 	}
 	
 	private void updateTextArea(String message) {
@@ -124,8 +121,7 @@ public class ChatWindow {
 	}
 
 	private void finish() {
-		System.out.println("소켓 닫기");
-		textField.setText(name+"종료");
+		pw.println("quit");
 		System.exit(0);
 	}
 
@@ -148,7 +144,7 @@ public class ChatWindow {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			} 
 	         
 		}
 	}

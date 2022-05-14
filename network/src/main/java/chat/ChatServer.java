@@ -13,11 +13,10 @@ import java.util.List;
 public class ChatServer {
 	private static final int PORT = 9999;
 	private static final String SERVER_IP = "127.0.0.1";
-	static List<Writer>listWriters = new ArrayList<Writer>();
 	
 	public static void main(String[] args) {
-		
 		ServerSocket serverSocket = null;
+		List<Writer>listWriters = new ArrayList<Writer>();
 		
 		try {
 			// 1. 서버 소켓 생성

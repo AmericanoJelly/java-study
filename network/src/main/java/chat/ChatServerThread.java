@@ -52,7 +52,6 @@ public class ChatServerThread extends Thread {
 					
 				} else if("message".equals(tokens[0])) {
 					doMessage(tokens[1]);
-					
 				} else if("quit".equals(tokens[0])) {
 					doQuit(pw);
 				} else {
@@ -92,23 +91,23 @@ public class ChatServerThread extends Thread {
 		
 	//서버에 연결된 모든 클라이언트에 메시지 보내는 메소드
 	private void broadcast( String data ) { 
-		synchronized(listWriters) {
-			for(Writer writer : listWriters) {
-				PrintWriter pw = (PrintWriter)writer;
+		synchronized( listWriters ) {
+			for (Writer writer : listWriters ) {
+				PrintWriter pw = (PrintWriter) writer;
 				pw.println(data);
 			}
 		}
 	}
 
 	private void doMessage(String data) {
-	      broadcast(this.nickname + ":"+ data);
+		String message = nickname + ":" + data;
+		broadcast(message);
 	   }
 
 	private void doQuit(Writer writer) {
-		removeWriter(writer);
-		String data = this.nickname + "님이 퇴장 하였습니다.";
-		System.out.println(data);
-		broadcast(data);	
+		removeWriter( writer );
+		String data = nickname + "님이 퇴장 하였습니다."; 
+		broadcast( data );
 	}
 	
 

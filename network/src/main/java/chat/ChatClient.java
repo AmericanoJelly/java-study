@@ -39,9 +39,7 @@ public class ChatClient {
 			
 			if("join:ok".equals(data)) {
 				System.out.println(nickname+"님이 입장하였습니다. 즐거운 채팅 되세요");
-				System.out.print(">>");
 			}
-			
 			
 			// 6. ChatClientReceiveThread 시작
 			new chatClientThread(socket).start();
